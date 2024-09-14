@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Balance Overview</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <style>
+        body {
+            background-color: #2e2e2e; /* Dark background color */
+            color: #ffffff; /* Light text color */
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            animation: fadeIn 1s ease-in-out;
+        }
+        .event-label {
+            position: absolute;
+            font-size: 12px;
+            color: #ffffff; /* White text color */
+            background-color: rgba(255, 99, 132, 0.75);
+            padding: 2px;
+            border-radius: 3px;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .chart-container {
+            position: relative;
+            background-color: #333333; /* Dark background for chart container */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        h2 {
+            color: #ffffff; /* White text color for heading */
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="containera">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="chart-container">
+                    <h2>Global Trade Overview</h2>
+                    <canvas id="tradeBalanceChart" width="800" height="390"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                
+            </div>
+        </div>
+    </div>
+    <div id="eventLabels"></div>
+    <script>
+        // Load the data from the JSON file
+        fetch('trade_balance_data2.json')
+            .then(response => response.json())
+            .then(data => {
+                const events = [
+                    {year: 1998, event: 'Kargil War'},
+                    {year: 1999, event: 'Odisha Cyclone'},
+                    {year: 2001, event: '9/11 Attacks'},
+                    {year: 2008, event: 'Global Financial Crisis'},
+                    {year: 2008, event: 'Mumbai Attacks'},
+                    {year: 2013, event: 'Uttarakhand Floods'},
+                    {year: 2016, event: 'Demonetization'},
+                    {year: 2019, event: 'Abrogation of Article 370'},
+                    {year: 2020, event: 'COVID-19 Pandemic'},
+                    {year: 2022, event: 'Russia-Ukraine War'},
+                    {year: 2023, event: 'India-UAE CEPA'},
+                    {year: 2023, event: 'Israel-Hamas Conflict'},
+                    {year: 2020, event: 'Brexit'}
+                ];
+
+                const ctx = document.getElementById('tradeBalanceChart').getContext('2d');
+
+                const datasets = Object.keys(data).map((country, index) => {
+                    return {
+                        label: country,
+                        data: data[country].map(d => ({x: d.Year, y: d[`${country} Trade Balance`]})),
+                        borderColor: `hsl(${index * 360 / Object.keys(data).length}, 100%, 75%)`,
+                        fill: false,
+                        tension: 0.1,
+                        borderWidth: 2
+                    };
+                });
+
+                const eventLines = events.map((event, index) => {
+                    return {
+                        type: 'line',
+                        scaleID: 'x',
+                        value: event.year,
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        label: {
+                            content: event.event,
+                            enabled: true,
+                            position: 'top',
+                            rotation: 90,
+                            backgroundColor: 'rgba(255, 99, 132, 0.25)',
+                            color: '#ffffff' // White text color
+                        },
+                        order: index + 10
+                    };
+                });
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        datasets: datasets
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                position: 'bottom',
+                                min: 1997,
+                                max: 2024,
+                                ticks: {
+                                    stepSize: 1,
+                                    callback: function(value, index, values) {
+                                        const event = events.find(e => e.year === value);
+                                        return event ? `${value} (${event.event})` : value;
+                                    },
+                                    color: '#ffffff' // White text color
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Trade Balance (in billions)',
+                                    color: '#ffffff' // White text color
+                                },
+                                ticks: {
+                                    color: '#ffffff' // White text color
+                                }
+                            }
+                        },
+                        plugins: {
+                            annotation: {
+                                annotations: eventLines
+                            },
+                            tooltip: {
+                                enabled: true,
+                                mode: 'nearest',
+                                intersect: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        const event = events.find(e => e.year === context.raw.x);
+                                        return event ? event.event : context.dataset.label + ': ' + context.raw.y;
+                                    }
+                                }
+                            }
+                        },
+                        elements: {
+                            line: {
+                                tension: 0.1,
+                                borderWidth: 2
+                            }
+                        }
+                    }
+                }).update();
+
+                // Positioning labels manually
+                const canvas = document.getElementById('tradeBalanceChart');
+                const rect = canvas.getBoundingClientRect();
+                const eventLabelsContainer = document.getElementById('eventLabels');
+                
+                events.forEach(event => {
+                    const x = ctx.canvas.width * (event.year - ctx.scales['x-axis-0'].min) / (ctx.scales['x-axis-0'].max - ctx.scales['x-axis-0'].min);
+                    const y = 10;
+
+                    const label = document.createElement('div');
+                    label.className = 'event-label';
+                    label.style.left = `${rect.left + x}px`;
+                    label.style.top = `${rect.top + y}px`;
+                    label.textContent = event.event;
+
+                    eventLabelsContainer.appendChild(label);
+                });
+            })
+            .catch(error => console.error('Error loading the data:', error));
+    </script>
+</body>
+</html>

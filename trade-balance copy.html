@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Balance Overview</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <style>
+        body {
+            background-color: #2c2c2c;
+            color: #000000;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="tradeBalanceChart" width="1660" height="920"></canvas>
+    <script>
+        // Load the data from the JSON file
+        fetch('trade_balance_data.json')
+            .then(response => response.json())
+            .then(data => {
+                const events = [
+                    {year: 1998, event: 'Kargil War'},
+                    {year: 1999, event: 'Odisha Cyclone'},
+                    {year: 2001, event: '9/11 Attacks'},
+                    {year: 2008, event: 'Global Financial Crisis'},
+                    {year: 2008, event: 'Mumbai Attacks'},
+                    {year: 2013, event: 'Uttarakhand Floods'},
+                    {year: 2016, event: 'Demonetization'},
+                    {year: 2019, event: 'Abrogation of Article 370'},
+                    {year: 2020, event: 'COVID-19 Pandemic'},
+                    {year: 2022, event: 'Russia-Ukraine War'},
+                    {year: 2023, event: 'India-UAE CEPA'},
+                    {year: 2023, event: 'Israel-Hamas Conflict'},
+                    {year: 2020, event: 'Brexit'}
+                ];
+
+                const ctx = document.getElementById('tradeBalanceChart').getContext('2d');
+
+                const datasets = Object.keys(data).map((country, index) => {
+                    return {
+                        label: country,
+                        data: data[country].map(d => ({x: d.Year, y: d[`${country} Trade Balance`]})),
+                        borderColor: `hsl(${index * 360 / Object.keys(data).length}, 100%, 70%)`,
+                        fill: false,
+                        tension: 0.1
+                    };
+                });
+
+                const eventLines = events.map(event => {
+                    return {
+                        type: 'line',
+                        scaleID: 'x',
+                        value: event.year,
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        label: {
+                            content: event.event,
+                            enabled: true,
+                            position: 'right',
+                            rotation: 0,
+                            xAdjust: 10,  // Adjust the horizontal position
+                            yAdjust: 0,   // Adjust the vertical position if needed
+                            color: '#ffffff',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        }
+                    };
+                });
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        datasets: datasets
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                position: 'bottom',
+                                title: {
+                                    display: true,
+                                    text: 'Year',
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 14
+                                    }
+                                },
+                                ticks: {
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Trade Balance (in billions)',
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 14
+                                    }
+                                },
+                                ticks: {
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            annotation: {
+                                annotations: eventLines
+                            },
+                            legend: {
+                                labels: {
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading the data:', error));
+    </script>
+</body>
+</html>

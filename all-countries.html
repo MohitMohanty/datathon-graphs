@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country-Specific Trade Balance Overview</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <style>
+        body {
+            background-color: #2e2e2e;
+            color: #ffffff;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .chart-container {
+            position: relative;
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #ffffff;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Graphs will be added here -->
+        <div id="charts"></div>
+    </div>
+
+    <script>
+        // Load the trade balance data from the JSON file
+        fetch('trade_balance_data.json')
+            .then(response => response.json())
+            .then(data => {
+
+                // Define relevant events for each country
+                const countryEvents = {
+                    'USA': [
+                        { year: 2001, event: '9/11 Attacks' },
+                        { year: 2008, event: 'Global Financial Crisis' },
+                        { year: 2020, event: 'COVID-19 Pandemic' }
+                    ],
+                    'Russia': [
+                        { year: 2022, event: 'Russia-Ukraine War' }
+                    ],
+                    'Ukraine': [
+                        { year: 2022, event: 'Russia-Ukraine War' }
+                    ],
+                    'UK': [
+                        { year: 2020, event: 'Brexit' }
+                    ],
+                    'EU': [
+                        { year: 2020, event: 'Brexit' },
+                        { year: 2022, event: 'Russia-Ukraine War' }
+                    ]
+                };
+
+                // Function to create a chart for each country
+                function createCountryChart(country, events, countryData) {
+                    const ctx = document.createElement('canvas');
+                    ctx.id = `chart-${country}`;
+                    ctx.width = 800;
+                    ctx.height = 400;
+                    document.getElementById('charts').appendChild(ctx);
+
+                    // Prepare the dataset
+                    const years = countryData.map(entry => entry['Year']);
+                    const tradeBalances = countryData.map(entry => entry[`${country} Trade Balance`]);
+
+                    const datasets = {
+                        label: `${country} Trade Balance`,
+                        data: tradeBalances,
+                        borderColor: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                        fill: false,
+                        tension: 0.1,
+                        borderWidth: 2
+                    };
+
+                    // Event markers
+                    const eventAnnotations = events.map(event => {
+                        return {
+                            type: 'line',
+                            scaleID: 'x',
+                            value: event.year,
+                            borderColor: '#FF6347',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            label: {
+                                content: event.event,
+                                enabled: true,
+                                position: 'top',
+                                rotation: 90,
+                                backgroundColor: 'rgba(255, 99, 132, 0.25)',
+                                color: '#ffffff'
+                            }
+                        };
+                    });
+
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: years,
+                            datasets: [datasets]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Year',
+                                        color: '#ffffff'
+                                    },
+                                    ticks: {
+                                        color: '#ffffff'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Trade Balance (in billions)',
+                                        color: '#ffffff'
+                                    },
+                                    ticks: {
+                                        color: '#ffffff'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                annotation: {
+                                    annotations: eventAnnotations
+                                },
+                                tooltip: {
+                                    enabled: true,
+                                    mode: 'nearest',
+                                    intersect: false,
+                                    callbacks: {
+                                        label: function(context) {
+                                            const event = events.find(e => e.year === context.raw.x);
+                                            return event ? event.event : `${context.dataset.label}: ${context.raw.y}`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Create a chart for each country
+                for (const country in countryEvents) {
+                    if (data[country]) {
+                        createCountryChart(country, countryEvents[country], data[country]);
+                    }
+                }
+            })
+            .catch(error => console.error('Error loading the data:', error));
+    </script>
+</body>
+</html>
