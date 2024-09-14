@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Gallery with Animations</title>
+  
+  <!-- Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- AOS (Animate on Scroll) CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <style>
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+
+    .navbar {
+      background-color: #212121 !important;
+    }
+
+    .nav-link {
+      color: #e0e0e0 !important;
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      width: 0;
+      height: 2px;
+      background: #e91e63;
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      transition: width 0.3s;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .card {
+      background-color: #2c2c2c;
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      height: 350px;
+      transition: transform 0.5s ease;
+    }
+
+    .card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.1);
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.05);
+    }
+
+    .card-content {
+      padding: 10px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    .card-description {
+      font-size: 14px;
+    }
+
+    .row .col {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Image Gallery</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#tab1">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tab2">Gallery</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tab6">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Welcome Section -->
+    <div id="tab1" class="tab-content" data-aos="fade-up">
+      <h3>Welcome to the Image Gallery</h3>
+      <p>Explore beautifully animated images with descriptions.</p>
+    </div>
+
+    <!-- Image Gallery Section -->
+    <div id="tab2" class="row">
+      <!-- Row 1 -->
+      <div class="col s12 m4" data-aos="fade-right">
+        <div class="card">
+          <img src="USA vs albania import and export difference.png" alt="Sample Image 1">
+          <div class="card-content">
+            <h4 class="card-title">Image Title 1</h4>
+            <p class="card-description">This is a description for Image 1.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m4" data-aos="fade-up">
+        <div class="card">
+          <img src="trend forcast.png" alt="Sample Image 2">
+          <div class="card-content">
+            <h4 class="card-title">Image Title 2</h4>
+            <p class="card-description">This is a description for Image 2.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m4" data-aos="fade-left">
+        <div class="card">
+          <img src="trend forcast.png" alt="Sample Image 3">
+          <div class="card-content">
+            <h4 class="card-title">Image Title 3</h4>
+            <p class="card-description">This is a description for Image 3.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="col s12 m4" data-aos="fade-right">
+        <div class="card">
+          <img src="top and bottom traders fin-year.png" alt="Sample Image 4">
+          <div class="card-content">
+            <h4 class="card-title">Image Title 4</h4>
+            <p class="card-description">This is a description for Image 4.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m4" data-aos="fade-up">
+        <div class="card">
+          <img src="USA vs albania import and export difference.png" alt="Sample Image 5">
+          <div class="card-content">
+            <h4 class="card-title">Image Title 5</h4>
+            <p class="card-description">This is a description for Image 5.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m4" data-aos="fade-left">
+        <div class="card">
+          <img src="trend forcast.png" alt="Sample Image 6">
+          <div class="card-content">
+            <h4 class="card-title">Image Title 6</h4>
+            <p class="card-description">This is a description for Image 6.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="col s12 m4" data-aos="fade-right">
+        <div class="card">
+          <img src="trade balance time series forcast.png" alt="Sample Image 7">
+          <div class="card-content">
+            <h4 class="card-title">Image Title 7</h4>
+            <p class="card-description">This is a description for Image 7.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m4" data-aos="fade-up">
+        <div class="card">
+          <img src="trade balance over 1997-2024 for major countries.png" alt="Sample Image 8">
+          <div class="card-content">
+            <h4 class="card-title">Image Title 8</h4>
+            <p class="card-description">This is a description for Image 8.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m4" data-aos="fade-left">
+        <div class="card">
+          <img src="top and bottom traders fin-year.png" alt="Sample Image 9">
+          <div class="card-content">
+            <h4 class="card-title">Image Title 9</h4>
+            <p class="card-description">This is a description for Image 9.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add more rows similarly -->
+    </div>
+
+    <!-- About Section -->
+    <div id="tab6" class="tab-content" data-aos="fade-up">
+      <h4>About</h4>
+      <p>This gallery showcases images with hover animations and accompanying descriptions to enrich the visual experience.</p>
+    </div>
+  </div>
+
+  <!-- jQuery (required for Bootstrap) -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!-- Materialize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <!-- AOS JS (Animate on Scroll) -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- Initialize AOS -->
+  <script>
+    AOS.init({
+      duration: 1200,
+    });
+  </script>
+
+</body>
+</html>
