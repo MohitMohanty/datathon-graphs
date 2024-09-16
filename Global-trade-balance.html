@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Balance Overview</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <style>
+        body {
+            background-color: #2e2e2e; /* Dark background color */
+            color: #ffffff; /* Light text color */
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            animation: fadeIn 1s ease-in-out;
+        }
+        .event-label {
+            position: absolute;
+            font-size: 12px;
+            color: #ffffff; /* White text color */
+            background-color: rgba(255, 99, 132, 0.75);
+            padding: 2px;
+            border-radius: 3px;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .chart-container {
+            position: relative;
+            background-color: #333333; /* Dark background for chart container */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        h2 {
+            color: #ffffff; /* White text color for heading */
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="containera">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="chart-container">
+                    <h2>Global Trade Overview</h2>
+                    <canvas id="tradeBalanceChart" width="800" height="390"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                
+            </div>
+        </div>
+    </div>
+    <div id="eventLabels"></div>
+    <script src="global-trade-balance.js"></script>
+</body>
+</html>

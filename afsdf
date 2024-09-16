@@ -1,0 +1,25 @@
+
+    {"year": 1998, "event": "Kargil War", "countries": ["Global", "Pakistan"]},
+
+    {"year": 2001, "event": "9/11 Attacks", "countries": ["USA", "EU", "Middle East"]},
+
+    {"year": 2008, "event": "Global Financial Crisis \n& Mumbai Attacks", "countries": ["USA", "EU", "Global"]},
+
+
+    {"year": 2010, "event": "Eurozone Debt Crisis", "countries": ["EU", "India"]},
+    {"year": 2011, "event": "Arab Spring  \n& Fukushima Nuclear Disaster", "countries": ["Middle East", "India"]},
+
+    {"year": 2013, "event": "Taper Tantrum", "countries": ["USA", "India"]},
+    {"year": 2014, "event": "\nModi's Economic Reforms & Collapse of Global Oil Prices", "countries": ["Global", "India"]},
+
+    {"year": 2015, "event": "China’s Economic Slowdown", "countries": ["China", "India"]},
+
+
+    {"year": 2016, "event": "Demonetization", "countries": ["India"]},
+    {"year": 2019, "event": "Abrogation of Article 370", "countries": ["India", "Pakistan"]},
+    {"year": 2020, "event": "Brexit \n COVID-19 Pandemic", "countries": ["Global", "India", "USA", "EU"]},
+
+    {"year": 2022, "event": "Russia-Ukraine War", "countries": ["Russia", "Ukraine", "EU"]},
+    {"year": 2023, "event": "India-UAE CEPA \n& Israel-Hamas Conflict", "countries": ["India", "UAE"]},
+
+    {"year": 2014, "event": "EU Sanctions on Russia", "countries": ["Russia", "EU"]}
