@@ -1,5 +1,5 @@
 // Load the data from the JSON file
-fetch('global.json')
+fetch('sep16global_trade_balance_data.json')
 .then(response => response.json())
 .then(data => {
     const events = [
