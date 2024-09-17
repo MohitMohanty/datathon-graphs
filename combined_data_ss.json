@@ -67,8 +67,8 @@
         {"year": 2014, "event": "Modi's Economic Reforms & Collapse of Global Oil Prices", "countries": ["Global", "India"]},
         {"year": 2015, "event": "China’s Economic Slowdown", "countries": ["China", "India"]},
         {"year": 2016, "event": "Demonetization", "countries": ["India"]},
-        {"year": 2019, "event": "Abrogation of Article 370", "countries": ["India", "Pakistan"]},
-        {"year": 2020, "event": "Brexit & COVID-19 Pandemic", "countries": ["Global", "India", "USA", "EU"]},
+        {"year": 2019, "event": "COVID-19 Pandemic & Abrogation of Article 370", "countries": ["India", "Pakistan"]},
+        {"year": 2020, "event": "Brexit ", "countries": ["Global", "India", "USA", "EU"]},
         {"year": 2022, "event": "Russia-Ukraine War", "countries": ["Russia", "Ukraine", "EU"]},
         {"year": 2023, "event": "India-UAE CEPA & Israel-Hamas Conflict", "countries": ["India", "UAE"]}
     ]
