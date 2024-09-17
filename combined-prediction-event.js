@@ -13,16 +13,21 @@
            {
                label: 'Global Trade Balance (Historical)',
                data: historicalData.map(d => ({x: d.Year, y: d["Global Trade Balance"]})),
-               borderColor: '#39FF14',
-               fill: false,
+               borderColor: 'blue',
+               backgroundColor: 'rgba(0, 0, 255, 0.1)',
+               fill: true,
+               spanGaps: true, // Connects gaps in the data,
                tension: 0.1,
                borderWidth: 2
            },
            {
                label: 'Global Trade Balance (Predicted)',
                data: predictionsData.map(d => ({x: d.Year, y: d["Predicted Global Trade Balance"]})),
-               borderColor: '#FF5733',
-               fill: false,
+               borderColor: 'red',
+               backgroundColor: 'rgba(255, 0, 0, 0.1)',
+               fill: true,
+               borderDash: [5, 5], // Dashed line for predictions
+               spanGaps: true,
                tension: 0.1,
                borderWidth: 2
            }
@@ -33,7 +38,7 @@
            type: 'line',
            scaleID: 'x',
            value: event.year,
-           borderColor: '#ff0000',
+           borderColor: '#cccfff',
            borderWidth: 1,
            borderDash: [10, 5],
            label: {
