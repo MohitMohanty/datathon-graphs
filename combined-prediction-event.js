@@ -63,7 +63,7 @@
                        type: 'linear',
                        position: 'bottom',
                        min: 1997,
-                       max: 2040,
+                       max: 2047,
                        ticks: {
                            stepSize: 1,
                            callback: function(value, index, values) {
