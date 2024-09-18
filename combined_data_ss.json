@@ -58,7 +58,7 @@
         
     ],
     "events": [
-        {"year": 1998, "event": "Kargil War", "countries": ["Global", "Pakistan"]},
+        {"year": 1999, "event": "Kargil War", "countries": ["Global", "Pakistan"]},
         {"year": 2001, "event": "9/11 Attacks", "countries": ["USA", "EU", "Middle East"]},
         {"year": 2008, "event": "Global Financial Crisis & Mumbai Attacks", "countries": ["USA", "EU", "Global"]},
         {"year": 2010, "event": "Eurozone Debt Crisis", "countries": ["EU", "India"]},
