@@ -9,8 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
     <style>
         body {
-            background-color: #2e2e2e; /* Dark background color */
-            color: #ffffff; /* Light text color */
+            background-color: #ffffff; /* Dark background color */
+            color: #0a0a0a; /* Light text color */
             padding: 20px;
             font-family: Arial, sans-serif;
         }
@@ -20,7 +20,7 @@
         .event-label {
             position: absolute;
             font-size: 12px;
-            color: #ffffff; /* White text color */
+            color: #000000; /* White text color */
             background-color: rgba(255, 99, 132, 0.75);
             padding: 2px;
             border-radius: 3px;
@@ -29,13 +29,13 @@
         }
         .chart-container {
             position: relative;
-            background-color: #333333; /* Dark background for chart container */
+            background-color: #f7f7f7; /* Dark background for chart container */
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
         h2 {
-            color: #ffffff; /* White text color for heading */
+            color: #000000; /* White text color for heading */
             margin-bottom: 20px;
             text-align: center;
             animation: fadeIn 1s ease-in-out;
@@ -61,18 +61,20 @@
                     <!-- <canvas id="tradeBalanceChart" width="800" height="390"></canvas> -->
                 </div>
             </div> 
-            <div class="col-md-6" style="margin-top: 1%;">
-                <div class="chart-container">
-                    <h2>Correlation between Geopolitical Events and India's Trade Balance</h2>
-                    <canvas id="correlationChart"></canvas>
-                </div>
+            <!-- <div class="col-md-12">
+                <div class="chart-container"></div>
+                    <h2>Global Trade Overview</h2>
+                     <canvas id="predictiontradeBalanceChart" width="800" height="400"></canvas> 
+
+                    <canvas id="tradeBalanceChartss" width="1200" height="600"></canvas>
+                    <div id="eventLabels"></div>
+                </div> -->
             </div>
         </div>
     </div>
     <div id="eventLabels"></div>
-    <!-- <script src="global-trade-balance.js"></script>
-    <script src="xgboostprediction.js"></script> -->
-    <script src="combined-prediction-event.js"></script>
-    <script src="global-trade-bargraph.js"></script>
+    <script src="global-trade-balance.js"></script>
+    <script src="xgboostprediction.js"></script>
+    <script src="combined-prediction-event-white.js"></script>
 </body>
 </html>

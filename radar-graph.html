@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Balance and Events Correlation</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        canvas {
+            width: 50rem !important;
+            height: 50rem !important;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <h2>Correlation between Geopolitical Events and India's Trade Balance</h2>
+    <canvas id="correlationChart"></canvas>
+    <script>
+        // Correlation data calculated (mockup, replace with real data)
+        const eventCorrelations = {
+            "Kargil War": 0.15,
+            "9/11 Attacks": -0.35,
+            "Global Financial Crisis & Mumbai Attacks": -0.89,
+            "Eurozone Debt Crisis": -0.47,
+            "Arab Spring & Fukushima Nuclear Disaster": -0.59,
+            "Taper Tantrum": 0.12,
+            "Modi's Economic Reforms & Collapse of Global Oil Prices": -0.23,
+            "China’s Economic Slowdown": 0.45,
+            "Demonetization": -0.65,
+            "Abrogation of Article 370 & COVID-19 Pandemic": -0.81,
+            "Brexit": -0.58,
+            "Russia-Ukraine War": -0.77,
+            "India-UAE CEPA & Israel-Hamas Conflict": -0.45
+        };
+
+        // Extract event names and correlation values
+        const eventLabels = Object.keys(eventCorrelations);
+        const eventValues = Object.values(eventCorrelations);
+
+        // Create the radar chart using Chart.js
+        const ctx = document.getElementById('correlationChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: eventLabels,
+                datasets: [{
+                    label: 'Correlation with Trade Balance',
+                    data: eventValues,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scale: {
+                    ticks: {
+                        beginAtZero: true,
+                        min: -1,
+                        max: 1,
+                        stepSize: 0.2,
+                    },
+                    pointLabels: {
+                        fontSize: 12,
+                        fontColor: '#666',
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Correlation between Geopolitical Events and India\'s Trade Balance'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

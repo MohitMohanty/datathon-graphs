@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Balance and Events Correlation</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <h2>Correlation between Geopolitical Events and India's Trade Balance</h2>
+    <canvas id="correlationChart"></canvas>
+    <script>
+        // Correlation data calculated (mockup, replace with real data)
+        const eventCorrelations = {
+            "Russia-Ukraine War": -0.6326,
+            "India-UAE CEPA & Israel-Hamas Conflict": -0.5587,
+            "9/11 Attacks": 0.1783,
+            "Kargil War": 0.1757,
+            "Arab Spring & Fukushima Nuclear Disaster": -0.0946,
+            "Abrogation of Article 370": -0.0604,
+            "Brexit & COVID-19 Pandemic": 0.0308,
+            "Modi's Economic Reforms & Collapse of Global Oil Prices": -0.0235,
+            "Taper Tantrum": -0.0207,
+            "Demonetization": 0.0195,
+            "Global Financial Crisis & Mumbai Attacks": 0.0063,
+            "China’s Economic Slowdown": 0.0040,
+            "Eurozone Debt Crisis": 0.0039
+        };
+
+        // Extract event names and correlation values
+        const eventLabels = Object.keys(eventCorrelations);
+        const eventValues = Object.values(eventCorrelations);
+
+        // Create the heatmap using Chart.js
+        const ctx = document.getElementById('correlationChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',  // Using a bar chart for simplicity
+            data: {
+                labels: eventLabels,
+                datasets: [{
+                    label: 'Correlation with Trade Balance',
+                    data: eventValues,
+                    backgroundColor: eventValues.map(value => value > 0 ? 'rgba(75, 192, 192, 0.6)' : 'rgba(255, 99, 132, 0.6)'),
+                    borderColor: eventValues.map(value => value > 0 ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 99, 132, 1)'),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        min: -1,
+                        max: 1,
+                        title: {
+                            display: true,
+                            text: 'Correlation Coefficient'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Correlation between Geopolitical Events and India\'s Trade Balance'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

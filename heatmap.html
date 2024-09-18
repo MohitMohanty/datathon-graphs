@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heatmap - Geopolitical Events and Trade Balance</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@2.0.0"></script>
+    <style>
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <h2>Heatmap of Correlations between Geopolitical Events and India's Trade Balance</h2>
+    <canvas id="heatmapChart"></canvas>
+
+    <script>
+        // Correlation data (mockup, replace with real data)
+        const eventCorrelations = {
+            "Kargil War": 0.15,
+            "9/11 Attacks": -0.35,
+            "Global Financial Crisis & Mumbai Attacks": -0.89,
+            "Eurozone Debt Crisis": -0.47,
+            "Arab Spring & Fukushima Nuclear Disaster": -0.59,
+            "Taper Tantrum": 0.12,
+            "Modi's Economic Reforms & Collapse of Global Oil Prices": -0.23,
+            "China’s Economic Slowdown": 0.45,
+            "Demonetization": -0.65,
+            "Abrogation of Article 370 & COVID-19 Pandemic": -0.81,
+            "Brexit": -0.58,
+            "Russia-Ukraine War": -0.77,
+            "India-UAE CEPA & Israel-Hamas Conflict": -0.45
+        };
+
+        // Convert event correlations to a format suitable for the matrix chart
+        const eventLabels = Object.keys(eventCorrelations);
+        const eventValues = Object.values(eventCorrelations);
+
+        const matrixData = eventLabels.map((label, i) => ({
+            x: i + 1, // Assign each event an x-position
+            y: 1,     // Single row (1) for simplicity in this case
+            v: eventValues[i] // Correlation value (heat level)
+        }));
+
+        // Create the heatmap using Chart.js Matrix
+        const ctx = document.getElementById('heatmapChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'matrix',
+            data: {
+                datasets: [{
+                    label: 'Event Correlations',
+                    data: matrixData,
+                    backgroundColor(context) {
+                        const value = context.dataset.data[context.dataIndex].v;
+                        const alpha = Math.min(1, Math.abs(value));
+                        return value > 0 ? `rgba(75, 192, 192, ${alpha})` : `rgba(255, 99, 132, ${alpha})`;
+                    },
+                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                    width(context) {
+                        const a = context.chart.chartArea;
+                        return (a.right - a.left) / eventLabels.length - 10;
+                    },
+                    height(context) {
+                        const a = context.chart.chartArea;
+                        return (a.bottom - a.top) / 1 - 10; // Single row
+                    }
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            display: true,
+                            autoSkip: false,
+                            maxRotation: 45,
+                            minRotation: 45,
+                            callback(value) {
+                                return eventLabels[value - 1];
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Events'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            display: false
+                        },
+                        title: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title() {
+                                return ''; // No title in tooltip
+                            },
+                            label(context) {
+                                const index = context.dataIndex;
+                                const eventName = eventLabels[index];
+                                const correlation = eventValues[index];
+                                return `${eventName}: ${correlation.toFixed(2)}`;
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
