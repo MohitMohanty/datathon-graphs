@@ -85,11 +85,16 @@ fetch('combined_data_ss.json')
                 }
             },
             plugins: {
-                legend: {
+                legend: {                    
                     display: true // Show the legend
                 },
                 annotation: {
                     annotations: eventLines
+                },
+                title: {
+                    display: true,
+                    text: 'India\'s Trade Dynamics and Geopolitical Impact',
+                    color: '#666' // White chart title
                 },
                 tooltip: {
                     enabled: true,
