@@ -107,7 +107,14 @@
             left: 50%;
             margin-left: -10px;
         }
-        
+        .chart-containers{
+            position: relative;
+            background-color: #333333; /* Dark background for chart container */
+            
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -142,9 +149,9 @@
                
             </div> 
             <div class="col-md-6" style="margin-top: 1%;">
-                <div class="chart-container">
-                    <h2>India Military Trade: Exports vs Imports (2010-2047)</h2>
-                    <canvas id="tradeChart"></canvas>
+                <div class="chart-containerss">
+                    <h2>Radar Graph</h2>
+                    <canvas id="radarChart" width="500" height="500"></canvas>
                 </div>
             </div>
         </div>
@@ -156,5 +163,6 @@
     <script src="global-trade-bargraph.js"></script>
     <script src="worldmap-value.js"></script>
     <script src="importexportgrowth.js"></script>
+    <script src="radar-correlation.js"></script>
 </body>
 </html>
