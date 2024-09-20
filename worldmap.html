@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet World Map - Imports and Exports (Countries)</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Include Leaflet.js CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <style>
+        /* Background for the entire page */
+        body {
+            background: #2c3e50; /* Faded dark background */
+            color: #ecf0f1; /* Light text color */
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Ensure the map fits its container */
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Card container */
+        .map-card {
+            width: 80vw; /* Width of the card */
+            height: 60vh; /* Height of the card */
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            background: #34495e; /* Card background */
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Glowing effect for the card */
+        .map-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            filter: blur(10px);
+            z-index: -1;
+        }
+
+        /* Hover animation */
+        .custom-tooltip {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .custom-tooltip:before {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-width: 10px 10px 0;
+            border-color: rgba(0, 0, 0, 0.7) transparent transparent;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="map-card">
+                <div id="map" class="map-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Initialize the map with a higher zoom level
+        var map = L.map('map').setView([40, 10], 1.8);  // Zoom in closer to the center
+
+        // Add base tile layer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Import/Export Data for Countries with values
+        var countryData = {
+    // Countries with both Export and Import data
+    "United States of America": { export: 301994.64, import: 269464.04 },
+    "United Arab Emirates": { export: 191116.68, import: 249406.12 },
+    "China": { export: 77305.39, import: 753372.99 },
+    "Germany": { export: 61809.04, import: 151402 },
+    "Singapore": { export: 142559.92, import: 141293.07 },
+    "Indonesia": { export: 50335.77, import: 133701.35 },
+    "Japan": { export: 44623.21, import: 129698.96 },
+    "Malaysia": { export: 43059.92, import: 79815.37 },
+    "South Korea": { export: 39526.59, import: 162379.07 },
+    "France": { export: 48480.2, import: 62446.5 },
+
+    // Countries with only Export data
+    "Netherlands": { export: 119029.53 },
+    "United Kingdom": { export: 66651.35 },
+    "Saudi Arabia": { export: 66432.1 },
+    "South Africa": { export: 54971.84 },
+    "Nepal": { export: 51799.65 },
+    "Italy": { export: 48383.08 },
+    "Turkey": { export: 47911.78 },
+    "Brazil": { export: 46411.64 },
+    "Bangladesh": { export: 43753.79 },
+    "Sri Lanka": { export: 37475.85 },
+
+    // Countries with only Import data
+    "Iraq": { import: 305386.23 },
+    "Russia": { import: 176270.37 },
+    "Qatar": { import: 163290.64 },
+    "Kuwait": { import: 148678.73 },
+    "Nigeria": { import: 141915.79 },
+    "Australia": { import: 135230.6 },
+    "Iran": { import: 91826.39 },
+    "Hong Kong": { import: 88633.82 },
+    "Venezuela": { import: 84937.73 }
+};
+
+
+        // Helper function to create a tooltip near the cursor
+        function createTooltip(countryName, countryInfo, latlng) {
+            var content = '<div class="custom-tooltip">';
+            content += countryName + '<br>';
+
+            // Check if both import and export data are available
+            if (countryInfo.export && countryInfo.import) {
+                content += 'Export: ' + countryInfo.export + ' USD<br>';
+                content += 'Import: ' + countryInfo.import + ' USD';
+            } else if (countryInfo.export) {
+                content += 'Export: ' + countryInfo.export + ' USD';
+            } else if (countryInfo.import) {
+                content += 'Import: ' + countryInfo.import + ' USD';
+            }
+            content += '</div>';
+
+            var tooltip = L.tooltip({
+                permanent: false,
+                direction: 'top',
+                className: 'leaflet-tooltip',
+                offset: [0, -10]
+            })
+            .setContent(content)
+            .setLatLng(latlng);
+
+            return tooltip;
+        }
+
+        // Load GeoJSON data for countries (world borders)
+        // Load GeoJSON data for countries (world borders)
+fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson')
+    .then(response => response.json())
+    .then(geoData => {
+        L.geoJSON(geoData, {
+            style: function(feature) {
+                var countryName = feature.properties.ADMIN;
+                
+                // Check if the country has import/export data
+                if (countryData[countryName]) {
+                    var countryInfo = countryData[countryName];
+
+                    // Style for countries with both import and export data
+                    if (countryInfo.export && countryInfo.import) {
+                        return {
+                            fillColor: '#FFEB00', // Unified color for countries with both import and export
+                            fillOpacity: 0.7,
+                            color: 'gray', // Outline color for countries with import/export
+                            weight: 1 // Thickness for countries with import/export
+                        };
+                    } else if (countryInfo.export) {
+                        return {
+                            fillColor: '#06D001', // Color for export
+                            fillOpacity: 0.7,
+                            color: 'gray', // Outline color for countries with export
+                            weight: 1
+                        };
+                    } else if (countryInfo.import) {
+                        return {
+                            fillColor: '#FF0000', // Color for import
+                            fillOpacity: 0.7,
+                            color: 'gray', // Outline color for countries with import
+                            weight: 1
+                        };
+                    }
+                } else {
+                    // Default style for countries without import/export data
+                    return {
+                        fillColor: '#ccc', // Default country color (light gray)
+                        fillOpacity: 0.5,
+                        color: 'black', // New outline color for countries without import/export
+                        weight: 0.5 // Reduced outline thickness for countries without import/export
+                    };
+                }
+            },
+            onEachFeature: function(feature, layer) {
+                var countryName = feature.properties.ADMIN;
+
+                // Tooltip for countries with data
+                if (countryData[countryName]) {
+                    var countryInfo = countryData[countryName];
+                    var content = countryName + '<br>';
+                    
+                    // Display import/export values in the tooltip
+                    if (countryInfo.export && countryInfo.import) {
+                        content += 'Export: ' + countryInfo.export + ' USD<br>';
+                        content += 'Import: ' + countryInfo.import + ' USD';
+                    } else if (countryInfo.export) {
+                        content += 'Export: ' + countryInfo.export + ' USD';
+                    } else if (countryInfo.import) {
+                        content += 'Import: ' + countryInfo.import + ' USD';
+                    }
+
+                    layer.bindTooltip(content, { permanent: false, direction: 'top' });
+                } else {
+                    // Tooltip for countries without data
+                    layer.bindTooltip(countryName + ': No data');
+                }
+            }
+        }).addTo(map);
+    });
+    </script>
+</body>
+</html>
