@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Balance Overview</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+    <!-- Papa Parse for CSV Parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <!-- Include Leaflet.js CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            background-color: #2e2e2e;
+            /* Dark background color */
+            color: #ffffff;
+            /* Light text color */
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .event-label {
+            position: absolute;
+            font-size: 12px;
+            color: #ffffff;
+            /* White text color */
+            background-color: rgba(255, 99, 132, 0.75);
+            padding: 2px;
+            border-radius: 3px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .chart-container {
+            position: relative;
+            background-color: #333333;
+            /* Dark background for chart container */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            color: #ffffff;
+            /* White text color for heading */
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Ensure the map fits its container */
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Card container */
+        .map-card {
+            width: 95vw;
+            /* Width of the card */
+            height: 70vh;
+            /* Height of the card */
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            background: #34495e;
+            /* Card background */
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Glowing effect for the card */
+        .map-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            filter: blur(10px);
+            z-index: -1;
+        }
+
+        /* Hover animation */
+        .custom-tooltip {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .custom-tooltip:before {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-width: 10px 10px 0;
+            border-color: rgba(0, 0, 0, 0.7) transparent transparent;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+        }
+
+        .chart-containers {
+            position: relative;
+            background-color: #333333;
+            /* Dark background for chart container */
+
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="containera">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="chart-container">
+                    <h2>India's Trade Dynamics and Geopolitical Impact</h2>
+                    <canvas id="tradeBalanceChartss" width="1200" height="600"></canvas>
+                    <!-- <canvas id="tradeBalanceChart" width="800" height="390"></canvas> -->
+                </div>
+            </div>
+            <div class="col-md-4" style="margin-top: 1%;">
+                <div class="chart-container">
+                    <h2>Correlation between Geopolitical Events and India's Trade Balance</h2>
+                    <canvas id="correlationChart" width="1200" height="870"></canvas>
+                </div>
+            </div>
+            <div class="col-md-8" style="margin-top: 1%;">
+                <div class="chart-container">
+                    <h2>India Military Trade: Exports vs Imports (2010-2047)</h2>
+                    <canvas id="tradeChart" width="1200" height="450"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 2%;">
+            <div class="col-md-12">
+                <h2>Top 20 Countries to Import / Export for Military related Commodities</h2>
+                <div class="map-card">
+                    <div id="map" class="map-container"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5" style="margin-top: 1%;">
+                <div class="chart-container">
+
+                    <img class="responsive-img" src="output.png" alt="" width="100%" height="570" />
+
+                </div>
+            </div>
+            <div class="col-md-7" style="margin-top: 1%;">
+                <div class="chart-container">
+                    <h2>Export and Import Trends for Iron & Steel, Pharmaceuticals, and Silk (2010-2021)</h2>
+                    <canvas id="exportImportChart" width="1200" height="570"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mt-4">
+                <h2>Sector-wise Composition of Imports and Exports</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h3 class="text-center">Exports</h3>
+                            <canvas id="exportPieChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h3 class="text-center">Imports</h3>
+                            <canvas id="importPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-top: 1%;">
+                <h2>Global Arms Trade (1950 - 2023)</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h4 class="text-center">Top Arms Importers</h4>
+                            <canvas id="importAPieChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h4 class="text-center">Top Arms Exporters</h4>
+                            <canvas id="exportAPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="eventLabels"></div>
+    
+    <script src="combined-prediction-event.js"></script>
+    <script src="global-trade-bargraph.js"></script>
+    <script src="worldmap-value.js"></script>
+    <script src="importexportgrowth.js"></script>
+    <!-- <script src="radar-correlation.js"></script> -->
+    <script src="undata.js"></script>
+    <script src="sector-wise-composition.js"></script>
+    <script src="global-arms-trade.js"></script>
+</body>
+
+</html>
