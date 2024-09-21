@@ -3,7 +3,7 @@
  const exportPieChart = new Chart(exportCtx, {
      type: 'pie',
      data: {
-         labels: ['Primary', 'Secondary', 'Tertiary'],
+        labels: ['Primary (1154532.83)', 'Secondary (1786807.56)', 'Tertiary (99201.76)'],
          datasets: [{
              label: 'Export',
              data: [38.0, 58.8, 3.3],
@@ -50,7 +50,7 @@
  const importPieChart = new Chart(importCtx, {
      type: 'pie',
      data: {
-         labels: ['Primary', 'Secondary', 'Tertiary'],
+        labels: ['Primary (2345994.37)', 'Secondary (2509019.75)', 'Tertiary (169150.17)'],
          datasets: [{
              label: 'Import',
              data: [46.7, 49.9, 3.4],
