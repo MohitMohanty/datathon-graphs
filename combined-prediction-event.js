@@ -138,4 +138,4 @@
            eventLabelsContainer.appendChild(label);
        });
    })
-   .catch(error => console.error('Error loading the data:', error));
+//    .catch(error => console.error('Error loading the data:', error));

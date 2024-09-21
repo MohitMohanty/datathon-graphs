@@ -1,5 +1,5 @@
  // Initialize the map with a higher zoom level
- var map = L.map('map').setView([40, 10], 1.8);  // Zoom in closer to the center
+ var map = L.map('map').setView([40, 10], 2.5);  // Zoom in closer to the center
 
  // Add base tile layer (OpenStreetMap)
  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -89,7 +89,7 @@ fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/coun
              // Style for countries with both import and export data
              if (countryInfo.export && countryInfo.import) {
                  return {
-                     fillColor: '#FFEB00', // Unified color for countries with both import and export
+                     fillColor: '#FFD700', // Unified color for countries with both import and export
                      fillOpacity: 0.7,
                      color: 'gray', // Outline color for countries with import/export
                      weight: 1 // Thickness for countries with import/export

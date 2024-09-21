@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pie Charts - Import and Export</title>
+    <title>Pie Charts - India's Arms Trade</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center">Sector-wise Composition of Imports and Exports</h2>
+        <h2 class="text-center">Global Arms Trade (1950 - 2023)</h2>
         <div class="row justify-content-center">
-            <!-- Export Pie Chart -->
-            <div class="col-md-5">
-                <h4 class="text-center">Export</h4>
-                <canvas id="exportPieChart"></canvas>
-            </div>
             <!-- Import Pie Chart -->
             <div class="col-md-5">
-                <h4 class="text-center">Import</h4>
-                <canvas id="importPieChart"></canvas>
+                <h4 class="text-center">Top Arms Importers</h4>
+                <canvas id="importAPieChart"></canvas>
+            </div>
+            <!-- Export Pie Chart -->
+            <div class="col-md-5">
+                <h4 class="text-center">Top Arms Exporters</h4>
+                <canvas id="exportAPieChart"></canvas>
             </div>
         </div>
     </div>
 
     <script>
-        // Export Pie Chart
-        const exportCtx = document.getElementById('exportPieChart').getContext('2d');
-        const exportPieChart = new Chart(exportCtx, {
+        // Import Pie Chart
+        const importCtx = document.getElementById('importAPieChart').getContext('2d');
+        const importAPieChart = new Chart(importCtx, {
             type: 'pie',
             data: {
-                labels: ['Primary', 'Secondary', 'Tertiary'],
+                labels: ['India', 'China', 'Saudi Arabia', 'Egypt', 'Japan'],
                 datasets: [{
-                    label: 'Export',
-                    data: [38.0, 58.8, 3.3],
-                    backgroundColor: ['#36a2eb', '#ff6384', '#ffcd56'],
+                    label: 'Import Share (%)',
+                    data: [6.5, 4, 3.7, 3.5, 3.4],
+                    backgroundColor: ['#36a2eb', '#ff6384', '#ffcd56', '#4bc0c0', '#9966ff'],
                     borderWidth: 1,
                 }]
             },
@@ -56,30 +56,24 @@
                         }
                     },
                     datalabels: {
-                        color: '#fff',
-                        formatter: (value) => {
-                            return value + '%';
-                        },
-                        font: {
-                            weight: 'bold',
-                            size: 16
-                        }
+                        color: 'white',
+                        formatter: (value) => `${value}%`
                     }
                 }
             },
-            plugins: [ChartDataLabels]
+            plugins: [ChartDataLabels] // Register the datalabels plugin
         });
 
-        // Import Pie Chart
-        const importCtx = document.getElementById('importPieChart').getContext('2d');
-        const importPieChart = new Chart(importCtx, {
+        // Export Pie Chart
+        const exportCtx = document.getElementById('exportAPieChart').getContext('2d');
+        const exportAPieChart = new Chart(exportCtx, {
             type: 'pie',
             data: {
-                labels: ['Primary', 'Secondary', 'Tertiary'],
+                labels: ['United States', 'Soviet Union', 'Russia', 'United Kingdom', 'France'],
                 datasets: [{
-                    label: 'Import',
-                    data: [46.7, 49.9, 3.4],
-                    backgroundColor: ['#4bc0c0', '#ff9f40', '#9966ff'],
+                    label: 'Export Share (%)',
+                    data: [36, 22, 7.6, 7.1, 6.7],
+                    backgroundColor: ['#ff9f40', '#ffcd56', '#36a2eb', '#4bc0c0', '#9966ff'],
                     borderWidth: 1,
                 }]
             },
@@ -87,9 +81,6 @@
                 responsive: true,
                 plugins: {
                     legend: {
-                        labels: {
-                        color: 'white'  // Legend labels color
-                    },
                         display: true,
                         position: 'top'
                     },
@@ -103,18 +94,12 @@
                         }
                     },
                     datalabels: {
-                        color: '#fff',
-                        formatter: (value) => {
-                            return value + '%';
-                        },
-                        font: {
-                            weight: 'bold',
-                            size: 16
-                        }
+                        color: 'white',
+                        formatter: (value) => `${value}%`
                     }
                 }
             },
-            plugins: [ChartDataLabels]
+            plugins: [ChartDataLabels] // Register the datalabels plugin
         });
     </script>
 
