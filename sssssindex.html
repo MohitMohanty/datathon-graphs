@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph & Image Gallery</title>
+  
+  <!-- Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- AOS (Animate on Scroll) CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <!-- Dark Mode & Custom Styles -->
+  <style>
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    .navbar {
+      background-color: #212121 !important;
+    }
+    .nav-link {
+      color: #e0e0e0 !important;
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      width: 0;
+      height: 2px;
+      background: #e91e63;
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      transition: width 0.3s;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .tab-content {
+      margin-top: 30px;
+    }
+    .card {
+      background-color: #2c2c2c;
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    .animated {
+      transition: all 0.5s ease-in-out;
+    }
+    .animated:hover {
+      transform: scale(1.05);
+    }
+    .row .col {
+      padding: 20px;
+    }
+    .card img {
+      width: 100%;
+      height: auto;
+    }
+    .containers{
+        padding: 2%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Graph Gallery</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#tab1">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tab2">Graphs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tab5">Images</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tab6">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="containers">
+    <!-- Welcome Section -->
+    <div id="tab1" class="tab-content" data-aos="fade-up">
+      <h3>Welcome to the Graph Gallery</h3>
+      <p>Explore various data visualizations.</p>
+    </div>
+
+    <!-- Graphs Section -->
+    <div class="row">
+      <!-- Growth Bar Graph -->
+      <div class="col s12 m6" data-aos="fade-right">
+        <h4>Growth Bar Graph</h4>
+        <div class="card animated">
+          <canvas id="growthBarGraph"></canvas>
+        </div>
+      </div>
+
+      <!-- Heatmap Graph (Simulated with Bar Graph) -->
+      <div class="col s12 m6" data-aos="fade-left">
+        <h4>Heatmap Graph (Correlation)</h4>
+        <div class="card animated">
+          <canvas id="heatmapGraph"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Line Graph 1 -->
+      <div class="col s12 m6" data-aos="fade-right">
+        <h4>Trade Line Graph</h4>
+        <div class="card animated">
+          <canvas id="tradeLineGraph"></canvas>
+        </div>
+      </div>
+
+      <!-- Line Graph 2 (Import/Export Growth) -->
+      <div class="col s12 m6" data-aos="fade-left">
+        <h4>Import/Export Growth (2010-2022)</h4>
+        <div class="card animated">
+          <canvas id="importExportGraph"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Section -->
+    <div class="row">
+      <div class="col s12 m6" data-aos="fade-right">
+        <h4>Image 1</h4>
+        <img src="trend forcast.png" class="responsive-img card" alt="Sample Image 1">
+      </div>
+      <div class="col s12 m6" data-aos="fade-left">
+        <h4>Image 2</h4>
+        <img src="trade balance over 1997-2024 for major countries.png" class="responsive-img card" alt="Sample Image 2">
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div id="tab6" class="tab-content" data-aos="fade-up">
+      <h4>About</h4>
+      <p>This website showcases different types of data visualizations using animated graphs and charts, all in dark mode for a smooth viewing experience.</p>
+    </div>
+  </div>
+
+  <!-- jQuery (required for Bootstrap) -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!-- Materialize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <!-- AOS JS (Animate on Scroll) -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- Chart.js for graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- JavaScript for Charts and AOS Initialization -->
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+
+    // Bar Graph for Growth
+    var ctx1 = document.getElementById('growthBarGraph').getContext('2d');
+    var growthBarGraph = new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['Pharma', 'IT', 'Engineering', 'Textiles'],
+        datasets: [{
+          label: 'Export Growth',
+          data: [12, 19, 13, 17],
+          backgroundColor: ['#2196F3', '#4CAF50', '#FFC107', '#FF5722']
+        }]
+      },
+      options: {
+        animation: {
+          duration: 2000,
+          easing: 'easeInOutBounce'
+        }
+      }
+    });
+
+    // Simulated Heatmap using Bar Chart
+    var ctx2 = document.getElementById('heatmapGraph').getContext('2d');
+    var heatmapGraph = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: ['Sector A', 'Sector B', 'Sector C'],
+        datasets: [{
+          label: 'Correlation Coefficient',
+          data: [1, 0.7, 0.3],
+          backgroundColor: ['#E91E63', '#4CAF50', '#FFEB3B']
+        }]
+      },
+      options: {
+        animation: {
+          duration: 2000,
+          easing: 'easeInOutBounce'
+        }
+      }
+    });
+
+    // Line Graph for Trade Data
+    var ctx3 = document.getElementById('tradeLineGraph').getContext('2d');
+    var tradeLineGraph = new Chart(ctx3, {
+      type: 'line',
+      data: {
+        labels: ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017'],
+        datasets: [{
+          label: 'Trade Volume',
+          data: [100, 150, 200, 250, 180, 210, 300, 320],
+          borderColor: '#E91E63',
+          fill: false
+        }]
+      },
+      options: {
+        animation: {
+          duration: 2000,
+          easing: 'easeInOutBounce'
+        }
+      }
+    });
+
+    // Line Graph for Import/Export Growth (2010-2022)
+    var ctx4 = document.getElementById('importExportGraph').getContext('2d');
+    var importExportGraph = new Chart(ctx4, {
+      type: 'line',
+      data: {
+        labels: ['2010', '2012', '2014', '2016', '2018', '2020', '2022'],
+        datasets: [{
+          label: 'Import',
+          data: [200, 250, 270, 300, 320, 350, 370],
+          borderColor: '#2196F3',
+          fill: false
+        }, {
+          label: 'Export',
+          data: [180, 220, 240, 260, 290, 320, 340],
+          borderColor: '#FFC107',
+          fill: false
+        }]
+      },
+      options: {
+        animation: {
+          duration: 2000,
+          easing: 'easeInOutBounce'
+        }
+      }
+    });
+  </script>
+</body>
+</html>

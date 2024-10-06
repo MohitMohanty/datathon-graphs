@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDI Inflows Overview</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #0a0a0a;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            animation: fadeIn 1s ease-in-out;
+        }
+        .chart-container {
+            position: relative;
+            background-color: #f7f7f7;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        h2 {
+            color: #000000;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="containera">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="chart-containers">
+                    <h2>FDI Inflows in India and Key Policy Events</h2>
+                    <canvas id="fdiChartss" width="1100" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Reference the updated JavaScript file with FDI data -->
+    <script src="path_to_your_fdi_chart.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FTA Trade Balance Before and After</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Ensures the chart uses the full screen without scrolling */
+        }
+        .bar {
+            fill-opacity: 0.8;
+        }
+        .label {
+            fill: red;
+            font-size: 12px;
+        }
+        .axis-label {
+            font-size: 12px;
+        }
+        .axis path,
+        .axis line {
+            fill: none;
+            shape-rendering: crispEdges;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 100vw; height: 100vh; margin: auto;">
+        <svg id="ftaChart" style="width: 100%; height: 100%;"></svg>
+    </div>
+
+    <script>
+        // FTA data for pre- and post-FTA periods with the correct colors
+        const ftaData = [
+            { fta: 'SAFTA (2006)', preFTA: [240.05, 218.07, 148.67], postFTA: [306.47, 430.63, 326.54], color: '#1f77b4' },
+            { fta: 'AIFTA (2009)', preFTA: [-1860.5, -1807.92, -1332.9], postFTA: [-2315.39, -3336.59, -3600.40], color: '#ff7f0e' },
+            { fta: 'ISLFTA (2000)', preFTA: [49.53, 58.28, 48.82], postFTA: [66.91, 16.12, 68.89], color: '#2ca02c' },
+            { fta: 'CECA Singapore (2005)', preFTA: [189.84, 197.57, 301.62], postFTA: [441.03, 482.31, 946.31], color: '#d62728' },
+            { fta: 'CEPA South Korea (2010)', preFTA: [-3640.39, -2520.93, -3496.50], postFTA: [-4884.34, -4540.95, -3284.89], color: '#9467bd' },
+            { fta: 'CEPA Japan (2011)', preFTA: [-455.22, -737.72, -761.27], postFTA: [-1610.98, -2596.17, -1923.63], color: '#8c564b' },
+            { fta: 'CECPA Mauritius (2021)', preFTA: [39.26, 42.38, 45.66], postFTA: [55.65, 56.21, 81.00], color: '#e377c2' },
+            { fta: 'CEPA UAE (2022)', preFTA: [-3846.22, -7847.90, -14194.22], postFTA: [-17342.04, -6291.21], color: '#7f7f7f' },
+            { fta: 'ECTA Australia (2022)', preFTA: [-7276.67, -5745.95, -13013.82], postFTA: [-14714.01, -10819.35], color: '#bcbd22' },
+            { fta: 'CECA Malaysia (2011)', preFTA: [-455.22, -737.72, -761.27], postFTA: [-1610.98, -2596.17, -1923.63], color: '#17becf' },
+            { fta: 'EHS Thailand (2004)', preFTA: [5.18, 29.28, 44.10], postFTA: [37.25, 59.44, 52.07], color: '#1f77b4' } // Reused Blue
+        ];
+
+        // Calculate averages for pre-FTA and post-FTA balances
+        ftaData.forEach(d => {
+            d.preFTA_avg = d3.mean(d.preFTA);
+            d.postFTA_avg = d3.mean(d.postFTA);
+        });
+
+        // Margin and dimensions for the SVG
+        const margin = { top: 40, right: 30, bottom: 100, left: 80 },
+            width = 960 - margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
+
+        // Create the SVG container
+        const svg = d3.select("#ftaChart")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // X-scale for FTAs
+        const x0 = d3.scaleBand()
+            .range([0, width])
+            .domain(ftaData.map(d => d.fta))
+            .padding(0.2);
+
+        // X1 scale for Pre-FTA and Post-FTA within each FTA
+        const x1 = d3.scaleBand()
+            .domain(['Pre-FTA', 'Post-FTA'])
+            .range([0, x0.bandwidth()])
+            .padding(0.05);
+
+        // Y-scale for trade balances
+        const y = d3.scaleLinear()
+            .domain([d3.min(ftaData, d => Math.min(d.preFTA_avg, d.postFTA_avg)) - 2000,
+                     d3.max(ftaData, d => Math.max(d.preFTA_avg, d.postFTA_avg)) + 2000])
+            .nice()
+            .range([height, 0]);
+
+        // X-axis
+        svg.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x0))
+            .selectAll("text")
+            .attr("text-anchor", "end")
+            .attr("transform", "rotate(-45)");
+
+        // Y-axis
+        svg.append("g")
+            .attr("class", "axis axis--y")
+            .call(d3.axisLeft(y));
+
+        // Group for each FTA's bars
+        const bars = svg.selectAll(".fta-group")
+            .data(ftaData)
+            .enter()
+            .append("g")
+            .attr("transform", d => `translate(${x0(d.fta)},0)`);
+
+        // Add Pre-FTA bars
+        bars.append("rect")
+            .attr("class", "bar pre-bar")
+            .attr("x", d => x1('Pre-FTA'))
+            .attr("y", d => y(Math.max(0, d.preFTA_avg)))
+            .attr("width", x1.bandwidth())
+            .attr("height", d => Math.abs(y(d.preFTA_avg) - y(0)))
+            .attr("fill", d => d.color);
+
+        // Add Post-FTA bars
+        bars.append("rect")
+            .attr("class", "bar post-bar")
+            .attr("x", d => x1('Post-FTA'))
+            .attr("y", d => y(Math.max(0, d.postFTA_avg)))
+            .attr("width", x1.bandwidth())
+            .attr("height", d => Math.abs(y(d.postFTA_avg) - y(0)))
+            .attr("fill", d => d.color);
+
+        // Add labels for growth and CAGR on Post-FTA bars
+        bars.append("text")
+            .attr("class", "label")
+            .attr("x", d => x1('Post-FTA') + x1.bandwidth() / 2)
+            .attr("y", d => y(d.postFTA_avg) - 10)
+            .text(d => {
+                const growth = ((d.postFTA_avg - d.preFTA_avg) / Math.abs(d.preFTA_avg)) * 100;
+                return `Growth: ${growth.toFixed(2)}%`;
+            });
+
+        bars.append("text")
+            .attr("class", "label")
+            .attr("x", d => x1('Post-FTA') + x1.bandwidth() / 2)
+            .attr("y", d => y(d.postFTA_avg) - 25)
+            .text(d => {
+                const n = 3; // Assuming a 3-year period for CAGR calculation
+                const cagr = (((d.postFTA_avg / d.preFTA_avg) ** (1 / n)) - 1) * 100;
+                return `CAGR: ${cagr.toFixed(2)}%`;
+            });
+
+        // Add labels for Pre-FTA and Post-FTA averages
+        bars.append("text")
+            .attr("class", "bar-label")
+            .attr("x", d => x1('Pre-FTA') + x1.bandwidth() / 2)
+            .attr("y", d => y(d.preFTA_avg) + (d.preFTA_avg > 0 ? -5 : 15))
+            .text(d => d.preFTA_avg.toFixed(2));
+
+        bars.append("text")
+            .attr("class", "bar-label")
+            .attr("x", d => x1('Post-FTA') + x1.bandwidth() / 2)
+            .attr("y", d => y(d.postFTA_avg) + (d.postFTA_avg > 0 ? -5 : 15))
+            .text(d => d.postFTA_avg.toFixed(2));
+    </script>
+</body>
+</html>
