@@ -172,11 +172,11 @@
                     }
                 },
                 plugins: {
-                    title: {
-                        display: true,
-                        text: 'Correlation between Geopolitical Events and India\'s Trade Balance',
-                        color: '#ffffff' // White chart title
-                    },
+                    // title: {
+                    //     display: true,
+                    //     text: '',
+                    //     color: '#ffffff' // White chart title
+                    // },
                     legend: {
                         labels: {
                             color: '#ffffff' // White legend labels

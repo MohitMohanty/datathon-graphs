@@ -149,7 +149,7 @@ new Chart(ctx_fda, {
                 annotations: fdiEventLines
             },
             title: {
-                display: true,
+                display: false,
                 text: 'FDI Inflows in India and Key Policy Events',
                 color: '#ffffff'
             },

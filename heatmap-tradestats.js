@@ -33,26 +33,47 @@ for (let i = 0; i < events.length; i++) {
 Highcharts.chart('container-correlation', {
     chart: {
         type: 'heatmap',
+        backgroundColor: '#333333', // Dark background
         marginTop: 40,
         marginBottom: 80,
         plotBorderWidth: 1
     },
 
     title: {
-        text: 'Heatmap: Export, Import, and Trade Balance'
+        display: false,
+        text: '',
+        style: {
+            color: '#ffffff' // White text for the title
+        }
     },
 
     xAxis: {
         categories: categoriesX,
         title: {
-            text: 'Trade Types'
+            text: 'Trade Types',
+            style: {
+                color: '#ffffff' // White text for the axis title
+            }
+        },
+        labels: {
+            style: {
+                color: '#ffffff' // White text for the axis labels
+            }
         }
     },
 
     yAxis: {
         categories: categoriesY,
         title: {
-            text: 'Events'
+            text: 'Events',
+            style: {
+                color: '#ffffff' // White text for the axis title
+            }
+        },
+        labels: {
+            style: {
+                color: '#ffffff' // White text for the axis labels
+            }
         },
         reversed: true // Ensures the first event is at the top
     },
@@ -73,10 +94,18 @@ Highcharts.chart('container-correlation', {
         margin: 0,
         verticalAlign: 'top',
         y: 25,
-        symbolHeight: 280
+        symbolHeight: 280,
+        itemStyle: {
+            color: '#ffffff' // White text for the legend
+        }
     },
 
     tooltip: {
+        backgroundColor: '#333333', // Dark background for the tooltip
+        borderColor: '#ffffff', // White border for the tooltip
+        style: {
+            color: '#ffffff' // White text inside the tooltip
+        },
         formatter: function () {
             return `<b>${categoriesY[this.point.y]}</b><br><b>${categoriesX[this.point.x]}</b>: ${this.point.value.toFixed(3)}`;
         }
@@ -88,7 +117,7 @@ Highcharts.chart('container-correlation', {
         data: data,
         dataLabels: {
             enabled: true,
-            color: '#000000',
+            color: '#ffffff', // White text inside the heatmap cells
             format: '{point.value:.3f}' // Display the value inside the heatmap cells
         }
     }]

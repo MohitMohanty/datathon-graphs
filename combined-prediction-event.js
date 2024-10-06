@@ -96,7 +96,7 @@
                        annotations: eventLines
                    },
                     title: {
-                        display: true,
+                        display: false,
                         text: 'India\'s Trade Dynamics and Geopolitical Impact',
                         color: '#fff' // White chart title
                     },
