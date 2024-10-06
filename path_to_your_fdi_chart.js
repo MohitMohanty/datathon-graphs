@@ -124,22 +124,25 @@ new Chart(ctx_fda, {
                         // Display the event name if it matches a key event year
                         return keyEvents[value] ? `${value}\n${keyEvents[value]}` : value;
                     },
-                    color: '#666'
+                    color: '#fff'
                 }
             },
             y: {
                 title: {
                     display: true,
                     text: 'FDI as % of GDP',
-                    color: '#333'
+                    color: '#fff'
                 },
                 ticks: {
-                    color: '#666'
+                    color: '#fff'
                 }
             }
         },
         plugins: {
-            legend: {                    
+            legend: {  
+                labels: {
+                color: 'white'  // Legend labels color
+            },                  
                 display: true // Show the legend
             },
             annotation: {
@@ -148,7 +151,7 @@ new Chart(ctx_fda, {
             title: {
                 display: true,
                 text: 'FDI Inflows in India and Key Policy Events',
-                color: '#333'
+                color: '#ffffff'
             },
             tooltip: {
                 enabled: true,

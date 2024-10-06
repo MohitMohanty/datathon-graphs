@@ -15,6 +15,9 @@ const importAPieChart = new Chart(importCtxA, {
         responsive: true,
         plugins: {
             legend: {
+                labels: {
+                    color: 'white'  // Legend labels color
+                },
                 display: true,
                 position: 'top'
             },
@@ -53,6 +56,9 @@ const exportAPieChart = new Chart(exportCtxA, {
         responsive: true,
         plugins: {
             legend: {
+                labels: {
+                    color: 'white'  // Legend labels color
+                },
                 display: true,
                 position: 'top'
             },

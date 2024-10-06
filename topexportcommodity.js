@@ -39,13 +39,22 @@ new Chart(ctx_exp, {
                 beginAtZero: true,
                 title: {
                     display: true,
-                    text: 'Value in USD Million'
+                    text: 'Value in USD Million',
+                    color: '#fff'
+                },
+                ticks: {
+                    color: '#fff'
                 }
             },
             y: {
                 title: {
                     display: true,
-                    text: 'Commodities'
+                    text: 'Commodities',
+                    color: '#fff'
+
+                },
+                ticks: {
+                    color: '#fff'
                 }
             }
         },

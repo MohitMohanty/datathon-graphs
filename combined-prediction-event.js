@@ -86,6 +86,9 @@
                },
                plugins: {
                    legend: {
+                    labels: {
+                        color: 'white'  // Legend labels color
+                    },
                        display: true, // Show the legend
                        
                    },

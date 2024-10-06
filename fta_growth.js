@@ -47,6 +47,9 @@ const ftaChart = new Chart(ctx_fta, {
     options: {
         responsive: true,
         plugins: {
+            labels: {
+                color: 'white'  // Legend labels color
+            },
             legend: {
                 display: false
             },
@@ -63,13 +66,21 @@ const ftaChart = new Chart(ctx_fta, {
                 ticks: {
                     maxRotation: 45,
                     minRotation: 45
+                },
+                ticks: {
+                    color: '#fff'
                 }
             },
             y: {
                 beginAtZero: false,
                 title: {
                     display: true,
-                    text: 'Trade Balance (in million USD)'
+                    text: 'Trade Balance (in million USD)',
+                    color: '#fff'
+
+                },
+                ticks: {
+                    color: '#fff'
                 }
             }
         }

@@ -109,9 +109,13 @@ function drawChart(years, ironSteelExport, ironSteelImport, pharmaExport, pharma
             plugins: {
                 title: {
                     display: true,
-                    text: 'Export & Import Trends'
+                    text: 'Export & Import Trends',
+                    color: '#fff'
                 },
                 legend: {
+                    labels: {
+                        color: 'white'  // Legend labels color
+                    },
                     position: 'top',
                 }
             },
@@ -119,14 +123,24 @@ function drawChart(years, ironSteelExport, ironSteelImport, pharmaExport, pharma
                 x: {
                     title: {
                         display: true,
-                        text: 'Year'
+                        text: 'Year',
+                        color: '#fff'
+                    },
+                    ticks: {
+                        color: '#fff'
                     }
+                    
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Trade Value (USD)'
+                        text: 'Trade Value (USD)',
+                        color: '#fff'
                     }
+                    ,
+                ticks: {
+                    color: '#fff'
+                }
                 }
             }
         }

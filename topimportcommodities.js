@@ -39,18 +39,30 @@ new Chart(ctx_imp, {
                 beginAtZero: true,
                 title: {
                     display: true,
-                    text: 'Value in USD Million'
+                    text: 'Value in USD Million',
+                    color: '#fff'
+                },
+                ticks: {
+                    color: '#fff'
                 }
             },
             y: {
                 title: {
                     display: true,
-                    text: 'Commodities'
+                    text: 'Commodities',
+                    color: '#fff'
+
+                },
+                ticks: {
+                    color: '#fff'
                 }
             }
         },
         plugins: {
             legend: {
+                labels: {
+                    color: '#fff'  // Legend labels color
+                },
                 display: false // Disable legend since we only have one dataset
             }
         },
